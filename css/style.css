@@ -1,5 +1,5 @@
 /* ============================================================
- * PUA6027 政策实验室 · 样式表
+ * PUA6027 上有政策（PolicyLab）· 样式表
  * 视觉定位：政府 / 公共行政公报风格
  * 浅灰底、深海军蓝主色、宋体标题、克制配色，去除一切游戏感。
  * ============================================================ */
@@ -143,6 +143,34 @@ h1, h2, h3 {
   border-radius: 4px; padding: 12px 14px; margin: 0 0 16px;
 }
 .intro-actions, .step-actions, .done-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ---------- 上层政策下达（上有政策 / 下有对策） ---------- */
+.upper-policy {
+  background: #f7f9fb;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--gold);
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin: 0 0 14px;
+}
+.upper-policy.origin { border-left-color: var(--navy); }
+.upper-policy-tag {
+  display: inline-block;
+  font-size: 11px; font-weight: 700;
+  padding: 2px 9px; border-radius: 3px;
+  background: var(--gold); color: #3a2e10; margin-bottom: 8px;
+}
+.upper-policy.origin .upper-policy-tag { background: var(--navy); color: #fff; }
+.upper-policy-title {
+  font-family: "Songti SC", "Noto Serif SC", Georgia, serif;
+  font-size: 15px; font-weight: 700; color: var(--navy); margin: 0 0 6px;
+}
+.upper-policy-text { font-size: 13.5px; color: #33414f; margin: 0 0 8px; }
+.upper-policy-note {
+  font-size: 12.5px; color: var(--muted); margin: 0;
+  border-top: 1px dashed var(--line); padding-top: 8px;
+}
+.upper-policy-note b { color: var(--navy); }
 
 /* ---------- 层面标签 ---------- */
 .level-tag {

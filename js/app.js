@@ -117,6 +117,32 @@ function renderStepper(total, current, doneAll) {
   wrap.innerHTML = html;
 }
 
+/* ---------- 上级来文：上有政策 / 下有对策 ----------
+   宏观层面是政策发起点（无上级来文）；中观、微观层面先收到上级来文，
+   玩家此后每一步都是在既定框架内作出的「下有对策」。 */
+function upperPolicyHtml(s, compact) {
+  const up = s.upperPolicy && s.upperPolicy[G.level];
+  if (!up) {
+    return `<div class="upper-policy origin">
+      <span class="upper-policy-tag">上有政策 · 政策发起点</span>
+      <p class="upper-policy-title">本局无上级来文：由你制定并下达政策</p>
+      <p class="upper-policy-text">你处于<b>${LEVEL_LABEL[G.level]}</b>层面，是「上」。本局每个决策点都在决定下级将收到一份怎样的文件——标准是否清晰、留多大裁量，都会成为中观与微观层面「下有对策」的起点。</p>
+      <p class="upper-policy-note">换到中观或微观层面重玩同一场景，即可体验在既定框架内作对策的处境。</p>
+    </div>`;
+  }
+  const body = compact
+    ? `<p class="upper-policy-text"><b>下达主体：</b>${up.from}</p>
+       <p class="upper-policy-note"><b>下有对策 · 留给你的裁量空间：</b>${up.discretion}</p>`
+    : `<p class="upper-policy-text"><b>下达主体：</b>${up.from}</p>
+       <p class="upper-policy-text">${up.text}</p>
+       <p class="upper-policy-note"><b>下有对策 · 留给你的裁量空间：</b>${up.discretion}</p>`;
+  return `<div class="upper-policy">
+    <span class="upper-policy-tag">上有政策 · 上级来文</span>
+    <p class="upper-policy-title">${up.title}</p>
+    ${body}
+  </div>`;
+}
+
 /* ---------- 开场：场景卡 ---------- */
 function renderIntro(app) {
   const s = getScenario();
@@ -136,6 +162,7 @@ function renderIntro(app) {
       <span class="level-tag level-${G.level}">${LEVEL_LABEL[G.level]}</span>
       <span class="level-note">本局你将以这一层面的政策主体身份进行治理。</span>
     </div>
+    ${upperPolicyHtml(s)}
     <p class="scenario-instruct">你将作为政策委员会，依次面对 <b>${s.steps.length}</b> 个决策点。在每个决策点，须就「怎么推行、怎么规定」作出选择；每作出一步选择，系统会即时说明这一决策究竟引发了什么改变。最终，你的整体路径会落到 Matland 模糊—冲突模型的某一个象限，并给出完整复盘。</p>
     <div class="intro-actions">
       <button id="startBtn" class="btn primary">开始治理</button>
@@ -159,9 +186,12 @@ function renderStep(app) {
   let html = `<h2 class="section-title">决策点 ${G.step + 1} / ${total}</h2>`;
   html += `<p class="step-prompt">${stepData.prompt}</p>`;
   if (stepData.hint) html += `<p class="step-hint">${stepData.hint}</p>`;
+  const frameNote = (G.level === 'macro')
+    ? '本决策点由你作为政策发起点作出，将成为下级的「上」。'
+    : '本决策点是在上级来文框架内作出的「下有对策」。';
   html += `<div class="level-banner static">
       <span class="level-tag level-${G.level}">${LEVEL_LABEL[G.level]}</span>
-      <span class="level-note">本决策点在此层面下作出。</span>
+      <span class="level-note">${frameNote}</span>
     </div>`;
   html += `<div class="option-list">`;
   stepData.options.forEach((opt, idx) => {
@@ -275,7 +305,12 @@ function renderDone(app) {
   const res = finalResult(G.accum);
   renderStepper(s.steps.length, s.steps.length, true);
 
-  let html = `<div class="outcome-card quad-${res.type}">
+  let html = `<section class="review-block">
+    <h2 class="section-title">上级来文（上有政策 / 下有对策）</h2>
+    ${upperPolicyHtml(s, true)}
+  </section>`;
+
+  html += `<div class="outcome-card quad-${res.type}">
     <div class="outcome-head">
       <span class="outcome-tag">政策执行结果 · Matland 四象限</span>
       <h2 class="outcome-title">${res.label}</h2>
@@ -447,11 +482,22 @@ function downloadBytes(name, mime, bytes) {
 function exportMarkdown() {
   const s = getScenario();
   const res = finalResult(G.accum);
-  let md = `# PUA6027 政策实验室 · 本局复盘报告\n\n`;
+  let md = `# 上有政策（PolicyLab）· 本局复盘报告\n\n`;
   md += `课程：科技与创新政策（PUA6027）\n`;
   md += `场景：${s.title}（${s.sector}）\n`;
   md += `本局政策层面：${LEVEL_LABEL[G.level]}\n`;
   md += `生成时间：${new Date().toLocaleString('zh-CN')}\n\n`;
+
+  const up = s.upperPolicy && s.upperPolicy[G.level];
+  md += `## 上级来文（上有政策 / 下有对策）\n\n`;
+  if (up) {
+    md += `**${up.title}**\n\n`;
+    md += `- 下达主体：${up.from}\n`;
+    md += `- 上级要求：${up.text}\n`;
+    md += `- 留给下级的裁量空间：${up.discretion}\n\n`;
+  } else {
+    md += `本局为**宏观 · 中央政府**层面，是政策的发起点（「上」），无上级来文：本局每个决策点都在决定下级将收到一份怎样的文件。若以中观或微观层面重玩同一场景，开场将先收到上级来文，此后的每一步即为「下有对策」。\n\n`;
+  }
 
   md += `## 一、政策执行结果（Matland 四象限）\n\n`;
   md += `**${res.label}**　模糊度 ${res.avgA.toFixed(2)} / 冲突度 ${res.avgC.toFixed(2)} / 执行系数 ${res.factor.toFixed(1)}\n\n`;
@@ -490,6 +536,7 @@ function exportJson() {
     course: '科技与创新政策（PUA6027）',
     scenarioId: G.scenarioId,
     level: G.level,
+    upperPolicy: (getScenario().upperPolicy && getScenario().upperPolicy[G.level]) || null,
     generatedAt: new Date().toISOString(),
     result: finalResult(G.accum),
     indicators: G.indicators,

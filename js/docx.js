@@ -168,10 +168,21 @@ function buildDocxBytes() {
   var res = finalResult(G.accum);
   var B = [];
 
-  B.push(wp('科技与创新政策 · 政策实验室 · 本局复盘报告', 'Title'));
+  B.push(wp('科技与创新政策 · 上有政策（PolicyLab）· 本局复盘报告', 'Title'));
   B.push(wp(s.title + '（' + s.sector + '）', 'Heading2'));
   B.push(wp('本局政策层面：' + LEVEL_LABEL[G.level], 'Normal'));
   B.push(wp('导出时间：' + new Date().toLocaleString('zh-CN'), 'Normal'));
+  var up = s.upperPolicy && s.upperPolicy[G.level];
+  B.push(wp('上级来文（上有政策 / 下有对策）', 'Heading1'));
+  if (up) {
+    B.push(wp(up.title, 'Heading2'));
+    B.push(wp('下达主体：' + up.from, 'Normal'));
+    B.push(wp('上级要求：' + up.text, 'Normal'));
+    B.push(wp('留给下级的裁量空间：' + up.discretion, 'Normal'));
+    B.push(wp('本局每一步，都是你在上级来文框架内作出的「下有对策」。', 'Story'));
+  } else {
+    B.push(wp('本局为宏观 · 中央政府层面，是政策的发起点（「上」），无上级来文：本局每个决策点都在决定下级将收到一份怎样的文件。', 'Normal'));
+  }
 
   // 一、政策执行结果（Matland 四象限）
   B.push(wp('一、政策执行结果（Matland 四象限）', 'Heading1'));
