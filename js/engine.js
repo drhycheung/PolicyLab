@@ -132,6 +132,13 @@ function finalResult(accum) {
   return Object.assign({ type, avgA, avgC }, MATLAND[type]);
 }
 
+/* 单步定位：由本步的模糊度 / 冲突度直接得到 Matland 执行类型。
+   用于「每步后果说明」面板，向学生即时展示这一步把政策推向了哪种执行性格。 */
+function matlandInfo(ambiguity, conflict) {
+  const type = matlandType(ambiguity, conflict);
+  return Object.assign({ type, ambiguity, conflict }, MATLAND[type]);
+}
+
 /* 随机选取场景；可传 id 以固定场景（便于课堂复现）。 */
 function pickScenario(id) {
   if (id) {

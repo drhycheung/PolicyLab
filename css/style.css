@@ -270,3 +270,97 @@ h1, h2, h3 {
 
 /* ---------- 页脚 ---------- */
 .site-footer { text-align: center; color: var(--muted); font-size: 12px; padding: 24px; }
+
+/* ---------- 每步后果说明 ---------- */
+.consequence-card {
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--navy);
+  border-radius: 4px;
+  padding: 18px 22px;
+  background: #fff;
+}
+.consequence-card.quad-administrative { border-left-color: #2e7d52; }
+.consequence-card.quad-political      { border-left-color: #b23b3b; }
+.consequence-card.quad-experimental   { border-left-color: #3f7d6e; }
+.consequence-card.quad-symbolic       { border-left-color: #c8a45c; }
+.cons-tag {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  background: var(--gold); color: #3a2e10; padding: 2px 10px; border-radius: 3px;
+}
+.cons-title { font-size: 21px; color: var(--navy); margin: 10px 0 12px; }
+.cons-choice { font-size: 15px; color: #33414f; margin-bottom: 10px; }
+.cons-k { color: var(--navy); font-weight: 700; }
+.cons-type { font-size: 14px; margin-bottom: 6px; color: #33414f; }
+.cons-type b { color: var(--navy); }
+.cons-desc { font-size: 13.5px; color: var(--muted); margin: 0 0 12px; }
+.cons-sub { font-size: 12.5px; color: var(--muted); margin: 0 0 6px; }
+.cons-effects { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.cons-ac {
+  display: flex; gap: 18px; flex-wrap: wrap;
+  font-size: 13px; color: var(--muted);
+  background: #f7f9fb; border: 1px solid var(--line); border-radius: 4px;
+  padding: 9px 14px; margin-bottom: 8px;
+}
+.cons-ac b { color: var(--navy); font-family: ui-monospace, monospace; }
+.cons-running { font-size: 14px; color: #33414f; margin-bottom: 10px; }
+.cons-running b { color: var(--navy); }
+.cons-why { font-size: 13px; color: #33414f; margin: 0 0 14px; }
+.cons-actions { display: flex; gap: 12px; }
+
+/* ---------- 复盘区块 ---------- */
+.review-block { margin-top: 18px; }
+.trail-type {
+  display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 3px;
+  font-weight: 700; color: #fff;
+}
+.trail-type.quad-administrative { background: #2e7d52; }
+.trail-type.quad-political      { background: #b23b3b; }
+.trail-type.quad-experimental   { background: #3f7d6e; }
+.trail-type.quad-symbolic       { background: #c8a45c; }
+
+/* ---------- 指标总账 ---------- */
+.ledger-note { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+.ledger-group { margin-bottom: 16px; }
+.dim-group-title {
+  font-size: 14px; color: var(--navy); font-weight: 700;
+  border-left: 4px solid var(--modC); padding-left: 8px; margin-bottom: 8px;
+}
+.ledger-rows { list-style: none; margin: 0; padding: 0; }
+.ledger-row {
+  border: 1px solid var(--line); border-radius: 4px;
+  padding: 9px 12px; margin-bottom: 8px; background: #fbfcfd;
+}
+.ledger-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.ledger-label { font-weight: 600; font-size: 14px; }
+.ledger-journey { font-family: ui-monospace, monospace; font-size: 13px; color: var(--muted); }
+.ledger-net { font-weight: 700; font-family: ui-monospace, monospace; font-size: 13px; }
+.ledger-net.good { color: var(--pos); }
+.ledger-net.bad { color: var(--neg); }
+.ledger-net.flat { color: var(--muted); }
+.ledger-moves { margin-top: 6px; font-size: 12.5px; color: var(--muted); }
+.ledger-moves-label { margin-right: 4px; }
+.attr-moves { list-style: none; margin: 4px 0 0; padding: 0; }
+.attr-move {
+  display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap;
+  padding: 3px 0; border-top: 1px dashed var(--line);
+}
+.attr-step { font-size: 11.5px; color: var(--navy); font-weight: 700; white-space: nowrap; }
+.attr-choice { font-size: 12.5px; color: #3a4654; flex: 1; }
+.attr-delta { font-family: ui-monospace, monospace; font-size: 12.5px; font-weight: 700; }
+.attr-delta.good { color: var(--pos); }
+.attr-delta.bad { color: var(--neg); }
+.ledger-none { color: var(--muted); font-style: italic; }
+.debrief-body { font-size: 14px; color: #33414f; line-height: 1.7; }
+
+/* ---------- 导出面板 ---------- */
+.export-note { font-size: 13px; color: var(--muted); margin: 0 0 14px; }
+.export-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ---------- 提示横幅 ---------- */
+.banner {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+  background: var(--navy); color: #fff; padding: 10px 18px; border-radius: 4px;
+  font-size: 13px; box-shadow: 0 4px 12px rgba(20,40,70,.2); z-index: 50;
+}
+.banner.hidden { display: none; }
+.banner.error { background: var(--neg); }
