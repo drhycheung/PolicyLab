@@ -91,7 +91,7 @@ function render() {
   if (G.phase === 'playing') {
     dashCard.hidden = true;
     trailCard.hidden = true;
-    renderStepper(s.steps.length, G.step, false);
+    renderStepper(getScenario().steps.length, G.step, false);
     renderStep(app);
     return;
   }
