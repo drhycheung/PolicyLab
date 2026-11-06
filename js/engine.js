@@ -106,21 +106,28 @@ function matlandType(ambiguity, conflict) {
 
 /* 应用一个选项：返回本步记录，并就地更新 indicators 与累加器。
    本步模糊度 = 本局固定层面基线 + 选项增量（钳制 0–1）。
+   关键机制：本步按其 Matland 执行系数「打折」后再落到指标——
+   意图效果（intended）≠ 实际落地（effects），落差即「知易行难」。
    level 为本局固定层面，由调用方传入。 */
 function applyOption(indicators, accum, option, level) {
   const base = LEVEL_BASE[level] || LEVEL_BASE.meso;
   const a = clamp01(base.a + (option.ambiguityDelta || 0));
   const c = clamp01(base.c + (option.conflictDelta || 0));
-  const eff = {};
+  const type = matlandType(a, c);
+  const factor = MATLAND[type].factor;       // 本步执行系数
+  const eff = {};        // 实际落地（已乘执行系数，钳制 0–10）
+  const intended = {};   // 设计预期（未打折，用于「预期 → 实际」对照）
   for (const [k, v] of Object.entries(option.effects || {})) {
-    indicators[k] = clamp(indicators[k] + v);
-    eff[k] = v;
+    const dv = Math.round(v * factor);
+    indicators[k] = clamp(indicators[k] + dv);
+    eff[k] = dv;
+    intended[k] = v;
   }
   accum.sumA += a; accum.sumC += c; accum.count += 1;
   return {
     text: option.text, level: level,
-    ambiguity: a, conflict: c,
-    effects: eff, rationale: option.rationale || '',
+    ambiguity: a, conflict: c, type, factor,
+    intended, effects: eff, rationale: option.rationale || '',
   };
 }
 

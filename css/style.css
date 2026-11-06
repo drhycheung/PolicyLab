@@ -306,6 +306,26 @@ h1, h2, h3 {
 .cons-running b { color: var(--navy); }
 .cons-why { font-size: 13px; color: #33414f; margin: 0 0 14px; }
 .cons-actions { display: flex; gap: 12px; }
+.cons-discount {
+  font-size: 12.5px; color: var(--modD);
+  background: #fbf6ee; border: 1px solid #ecdcc0; border-left: 4px solid var(--gold);
+  border-radius: 4px; padding: 9px 12px; margin: 0 0 12px;
+}
+
+/* 预期 → 实际落地 对照行（每步后果 / 决策轨迹共用） */
+.eff-row {
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  font-size: 13px; padding: 4px 0; border-top: 1px dashed var(--line);
+}
+.eff-row:first-child { border-top: none; }
+.eff-label { font-weight: 600; color: #3a4654; min-width: 64px; }
+.eff-intended { color: var(--muted); font-family: ui-monospace, monospace; }
+.eff-arrow { color: var(--muted); }
+.eff-actual { font-weight: 700; font-family: ui-monospace, monospace; }
+.eff-actual.pos { color: var(--pos); }
+.eff-actual.neg { color: var(--neg); }
+.eff-actual.flat { color: var(--muted); }
+.trail-effects { margin: 4px 0 6px; }
 
 /* ---------- 复盘区块 ---------- */
 .review-block { margin-top: 18px; }

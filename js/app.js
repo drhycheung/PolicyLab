@@ -208,6 +208,21 @@ function renderStep(app) {
   document.getElementById('swapBtn').addEventListener('click', swapGame);
 }
 
+/* 渲染「预期 → 实际落地」对照（每步执行系数打折后的落差可视化） */
+function effRowsHtml(rec) {
+  return Object.keys(rec.intended).map(k => {
+    const v = rec.intended[k];
+    const dv = rec.effects[k];
+    const cls = dv > 0 ? 'pos' : (dv < 0 ? 'neg' : 'flat');
+    return `<div class="eff-row">
+      <span class="eff-label">${labelOf(k)}</span>
+      <span class="eff-intended">预期 ${v > 0 ? '+' : ''}${v}</span>
+      <span class="eff-arrow">→</span>
+      <span class="eff-actual ${cls}">实际 ${dv > 0 ? '+' : ''}${dv}</span>
+    </div>`;
+  }).join('');
+}
+
 /* ---------- 每步后果说明（贴近 Choices 的 renderFeedback） ---------- */
 function renderConsequence(app) {
   const s = getScenario();
@@ -221,10 +236,7 @@ function renderConsequence(app) {
   const run = finalResult(G.accum);                     // 累计平均
   const isLast = stepNo >= total;
 
-  const effHtml = Object.entries(rec.effects).map(([k, v]) => {
-    const b = before[k], a = after[k];
-    return `<span class="chip ${v > 0 ? 'pos' : 'neg'}">${labelOf(k)} ${b} → ${a}</span>`;
-  }).join('');
+  const effHtml = effRowsHtml(rec);
 
   const html = `<div class="consequence-card quad-${info.type}">
     <span class="cons-tag">决策点 ${stepNo} · 后果说明</span>
@@ -232,8 +244,9 @@ function renderConsequence(app) {
     <div class="cons-choice"><span class="cons-k">你的选择：</span>${rec.text}</div>
     <div class="cons-type">本步执行定位：<b>${info.label}</b>（执行系数 ${info.factor}）</div>
     <p class="cons-desc">${info.desc}</p>
-    ${effHtml ? `<div class="cons-sub">社会发展指标变化（决策前 → 决策后）</div>
-      <div class="cons-effects">${effHtml}</div>` : ''}
+    ${effHtml ? `<div class="cons-sub">社会发展指标变化（预期 → 实际落地）</div>
+      <div class="cons-effects">${effHtml}</div>
+      ${info.factor < 1 ? `<p class="cons-discount">执行系数 ${info.factor}：你设计的预期效果在执行层面被打折，实际落地如上——这正是「知易行难」的现场演示。</p>` : ''}` : ''}
     <div class="cons-ac">
       <span>本步模糊度 <b>${rec.ambiguity.toFixed(2)}</b></span>
       <span>本步冲突度 <b>${rec.conflict.toFixed(2)}</b></span>
@@ -280,9 +293,7 @@ function renderDone(app) {
   html += `<section class="review-block">
     <h2 class="section-title">一、决策轨迹</h2>`;
   G.selections.forEach((rec, i) => {
-    const eff = Object.entries(rec.effects)
-      .map(([k, v]) => `<span class="chip ${v > 0 ? 'pos' : 'neg'}">${labelOf(k)} ${rec.indicatorsBefore[k]} → ${rec.indicatorsAfter[k]}</span>`)
-      .join('');
+    const eff = effRowsHtml(rec);
     const info = matlandInfo(rec.ambiguity, rec.conflict);
     html += `<div class="trail-item">
       <div class="trail-item-head">
@@ -291,7 +302,7 @@ function renderDone(app) {
       </div>
       <p class="trail-choice">${rec.text}</p>
       <div class="trail-metrics">本步模糊度 <b>${rec.ambiguity.toFixed(2)}</b> · 冲突度 <b>${rec.conflict.toFixed(2)}</b> · 执行系数 <b>${info.factor}</b></div>
-      <div class="trail-chips">${eff}</div>
+      <div class="trail-effects">${eff}</div>
       <p class="trail-why">${rec.rationale}</p>
     </div>`;
   });
@@ -448,14 +459,14 @@ function exportMarkdown() {
 
   md += `## 二、决策轨迹（按决策点）\n\n`;
   G.selections.forEach((rec, i) => {
-    const eff = Object.entries(rec.effects)
-      .map(([k, v]) => `${labelOf(k)} ${rec.indicatorsBefore[k]}→${rec.indicatorsAfter[k]}`)
-      .join('，');
+    const eff = Object.keys(rec.intended)
+      .map(k => `${labelOf(k)} 预期 ${rec.intended[k] > 0 ? '+' : ''}${rec.intended[k]} → 实际 ${rec.effects[k] > 0 ? '+' : ''}${rec.effects[k]}`)
+      .join('；');
     const info = matlandInfo(rec.ambiguity, rec.conflict);
     md += `### 决策点 ${i + 1} · ${LEVEL_LABEL[rec.level]}（${info.label}）\n\n`;
     md += `- 选择：${rec.text}\n`;
     md += `- 本步模糊度 ${rec.ambiguity.toFixed(2)} / 冲突度 ${rec.conflict.toFixed(2)} / 执行系数 ${info.factor}\n`;
-    md += `- 指标变化：${eff}\n`;
+    md += `- 指标变化（预期 → 实际落地）：${eff}\n`;
     md += `- 解析：${rec.rationale}\n\n`;
   });
 

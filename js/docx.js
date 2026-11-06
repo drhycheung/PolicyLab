@@ -188,11 +188,12 @@ function buildDocxBytes() {
     B.push(wp('你的选择：' + rec.text, 'Choice'));
     B.push(wp('本步模糊度 ' + rec.ambiguity.toFixed(2) + ' / 冲突度 ' + rec.conflict.toFixed(2) +
               ' / 执行系数 ' + info.factor, 'Normal'));
-    var effRows = Object.keys(rec.effects).map(function (k) {
-      return [labelOf(k), rec.indicatorsBefore[k] + ' → ' + rec.indicatorsAfter[k]];
+    var effRows = Object.keys(rec.intended).map(function (k) {
+      var v = rec.intended[k], dv = rec.effects[k];
+      return [labelOf(k), (v > 0 ? '+' : '') + v, (dv > 0 ? '+' : '') + dv];
     });
     if (effRows.length) {
-      B.push(wtbl([['受影响指标', '变化（决策前 → 决策后）']].concat(effRows)));
+      B.push(wtbl([['受影响指标', '预期效果', '实际落地']].concat(effRows)));
     }
     if (rec.rationale) B.push(wp('解析：' + rec.rationale, 'Normal'));
   });
