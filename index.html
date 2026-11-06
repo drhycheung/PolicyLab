@@ -18,28 +18,16 @@
   </header>
 
   <main class="container">
-    <section class="card intro">
-      <p>欢迎就任本模拟经济体的政策委员会。你将按课程进度逐期制定政策，系统会依据政策属性推演其执行结果，并持续追踪各项社会发展指标。请特别留意：<strong>意图良好的政策未必能全额落地</strong>——执行落差正是本课程的核心理念之一。</p>
-    </section>
+    <div id="stepper" class="stepper" hidden></div>
 
-    <div id="stepper" class="stepper"></div>
+    <section id="app" class="card"></section>
 
-    <section id="mechanism" class="card"></section>
-
-    <section class="card">
-      <h2 class="section-title">社会发展指标</h2>
+    <section id="dashCard" class="card" hidden>
+      <h2 class="section-title">社会发展指标 · 政策影响简报</h2>
       <div id="dashboard"></div>
     </section>
 
-    <section class="card">
-      <div id="period"></div>
-    </section>
-
-    <section class="card">
-      <div id="trail"></div>
-    </section>
-
-    <section id="verdict"></section>
+    <section id="trailCard" class="card" hidden></section>
   </main>
 
   <footer class="site-footer">
@@ -47,7 +35,7 @@
   </footer>
 
   <script src="js/engine.js"></script>
-  <script src="data/policies.js"></script>
+  <script src="data/scenarios.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/app.js"></script>
 </body>

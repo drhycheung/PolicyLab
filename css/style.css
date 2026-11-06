@@ -79,7 +79,6 @@ h1, h2, h3 {
   padding: 22px 24px;
   box-shadow: 0 1px 2px rgba(20, 40, 70, .04);
 }
-.intro p { margin: 0; color: #33414f; }
 .section-title {
   margin: 0 0 16px;
   font-size: 19px;
@@ -111,7 +110,98 @@ h1, h2, h3 {
 .step.done { color: var(--pos); border-color: #bfe0cd; }
 .step.done .step-no { background: var(--pos); color: #fff; }
 
-/* ---------- 仪表盘 ---------- */
+/* ---------- 场景卡（开场） ---------- */
+.scenario-card { }
+.scenario-tag {
+  display: inline-block;
+  background: var(--gold); color: #3a2e10;
+  font-size: 11px; font-weight: 700;
+  padding: 2px 10px; border-radius: 3px;
+}
+.scenario-title { font-size: 22px; color: var(--navy); margin: 10px 0 6px; }
+.scenario-meta { display: flex; gap: 18px; font-size: 13px; color: var(--muted); margin-bottom: 10px; flex-wrap: wrap; }
+.scenario-brief { font-size: 14.5px; color: #33414f; margin: 0 0 12px; }
+.scenario-stake { margin-bottom: 14px; font-size: 13px; color: var(--muted); }
+.stake-label { margin-right: 4px; }
+.stake-chip {
+  display: inline-block; background: #eef2f6; border: 1px solid var(--line);
+  border-radius: 3px; padding: 2px 9px; margin: 2px 4px 2px 0;
+  font-size: 12.5px; color: #3a4654;
+}
+.level-banner {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  background: #f7f9fb; border: 1px solid var(--line);
+  border-left: 4px solid var(--navy);
+  border-radius: 4px; padding: 10px 14px; margin: 0 0 14px;
+}
+.level-banner.static { margin: 6px 0 14px; }
+.level-note { font-size: 13px; color: var(--muted); }
+.scenario-instruct {
+  font-size: 13.5px; color: #33414f;
+  background: #f7f9fb; border: 1px solid var(--line);
+  border-left: 4px solid var(--navy);
+  border-radius: 4px; padding: 12px 14px; margin: 0 0 16px;
+}
+.intro-actions, .step-actions, .done-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ---------- 层面标签 ---------- */
+.level-tag {
+  display: inline-block; font-size: 11px; padding: 2px 9px;
+  border-radius: 3px; font-weight: 700; color: #fff;
+}
+.level-macro { background: #16335b; }
+.level-meso { background: #3f7d6e; }
+.level-micro { background: #9c6b3f; }
+
+/* ---------- 决策步 ---------- */
+.step-prompt { font-size: 16px; color: var(--ink); margin: 4px 0 4px; font-weight: 600; }
+.step-hint { font-size: 13px; color: var(--muted); margin: 0 0 14px; }
+.option-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+.option-card {
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 14px 16px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color .15s, box-shadow .15s;
+  font-family: inherit;
+}
+.option-card:hover { border-color: #aebfce; }
+.option-card.selected { border-color: var(--navy); box-shadow: inset 3px 0 0 var(--navy); }
+.option-text { font-size: 14px; color: #3a4654; margin: 0 0 8px; }
+.option-rationale {
+  font-size: 12.5px; color: var(--muted); margin: 0;
+  border-top: 1px dashed var(--line); padding-top: 8px;
+}
+#confirmBtn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ---------- 结局卡（Matland 四象限） ---------- */
+.outcome-card {
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--navy);
+  border-radius: 4px;
+  padding: 18px 22px;
+  background: #fff;
+}
+.outcome-card.quad-administrative { border-left-color: #2e7d52; }
+.outcome-card.quad-political      { border-left-color: #b23b3b; }
+.outcome-card.quad-experimental   { border-left-color: #3f7d6e; }
+.outcome-card.quad-symbolic       { border-left-color: #c8a45c; }
+.outcome-head { margin-bottom: 10px; }
+.outcome-tag { font-size: 12px; color: var(--muted); letter-spacing: 1px; }
+.outcome-title { font-size: 24px; color: var(--navy); margin: 4px 0 8px; }
+.outcome-desc { margin: 0 0 8px; color: #33414f; }
+.outcome-narr { margin: 0 0 12px; color: #33414f; font-style: italic; }
+.outcome-metrics { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.outcome-metrics b { color: var(--navy); font-family: ui-monospace, monospace; }
+.done-actions { margin-top: 16px; }
+
+/* ---------- 仪表盘（政策影响简报） ---------- */
 .module-block { margin-bottom: 18px; }
 .module-block:last-child { margin-bottom: 0; }
 .module-title {
@@ -141,73 +231,10 @@ h1, h2, h3 {
 .bar-fill.mod-B { background: var(--modB); }
 .bar-fill.mod-C { background: var(--modC); }
 .bar-fill.mod-D { background: var(--modD); }
-.spark { display: block; margin-top: 6px; }
-
-/* ---------- 周期面板 ---------- */
-.period-head h2 { margin: 0 0 4px; font-size: 20px; color: var(--navy); }
-.period-sub { margin: 0 0 14px; color: var(--muted); font-size: 13.5px; }
-.event-banner {
-  background: #fbf6ec;
-  border: 1px solid #ecd9b0;
-  border-left: 4px solid var(--gold);
-  border-radius: 4px;
-  padding: 10px 14px;
-  margin-bottom: 16px;
-  font-size: 13.5px;
-  color: #6b5a2e;
-}
-.event-tag {
-  display: inline-block;
-  background: var(--gold); color: #3a2e10;
-  font-size: 11px; padding: 1px 8px;
-  border-radius: 3px; margin-right: 8px; font-weight: 700;
-}
-.policy-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 14px;
-}
-.policy-card {
-  display: block;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  padding: 14px 16px;
-  background: #fff;
-  cursor: pointer;
-  transition: border-color .15s, box-shadow .15s;
-  position: relative;
-}
-.policy-card:hover { border-color: #aebfce; }
-.policy-card:has(.pol-check:checked) { border-color: var(--navy); box-shadow: inset 3px 0 0 var(--navy); }
-.policy-card.disabled { opacity: .55; cursor: not-allowed; }
-.policy-top { display: flex; gap: 10px; align-items: flex-start; }
-.pol-check { margin-top: 4px; width: 16px; height: 16px; accent-color: var(--navy); }
-.policy-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.policy-title { font-weight: 700; font-size: 15px; }
-.level-tag {
-  font-size: 11px; background: #eef2f6; color: var(--muted);
-  padding: 2px 8px; border-radius: 3px; border: 1px solid var(--line);
-}
-.policy-text { font-size: 13px; color: #3a4654; margin: 8px 0 10px; }
-.policy-effects { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-.chip { font-size: 11.5px; padding: 2px 8px; border-radius: 3px; font-weight: 600; }
-.chip.pos { background: #e7f3ec; color: var(--pos); }
-.chip.neg { background: #f7e9e9; color: var(--neg); }
-.matland-preview {
-  font-size: 12px;
-  display: flex; align-items: center; gap: 8px;
-  padding: 6px 10px; border-radius: 4px;
-  background: #f4f7fa;
-  border-left: 3px solid var(--line);
-}
-.matland-preview.mod-B { background: rgba(47,109,164,.08); border-left-color: var(--modB); }
-.matland-preview.mod-C { background: rgba(63,125,110,.08); border-left-color: var(--modC); }
-.matland-preview.mod-D { background: rgba(156,107,63,.08); border-left-color: var(--modD); }
-.ml-label { color: var(--muted); }
-.ml-type { font-weight: 700; }
-.ml-factor { margin-left: auto; color: var(--navy); font-family: ui-monospace, monospace; }
-.policy-warn { margin-top: 8px; font-size: 12.5px; color: var(--neg); }
-.period-actions { margin-top: 18px; display: flex; gap: 12px; }
+.indicator-delta { font-size: 11.5px; margin-top: 4px; }
+.indicator-delta.pos { color: var(--pos); }
+.indicator-delta.neg { color: var(--neg); }
+.indicator-delta.flat { color: var(--muted); }
 
 /* ---------- 按钮 ---------- */
 .btn {
@@ -220,25 +247,7 @@ h1, h2, h3 {
 .btn.ghost { background: #fff; color: var(--navy); border-color: var(--line); }
 .btn.ghost:hover { border-color: var(--navy); }
 
-/* ---------- 机制说明 ---------- */
-.ml-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-.ml-cell { border: 1px solid var(--line); border-radius: 4px; padding: 12px 14px; background: #fbfcfd; }
-.ml-cell-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
-.ml-name { font-weight: 700; color: var(--navy); }
-.ml-fac { font-family: ui-monospace, monospace; color: var(--muted); font-size: 12px; }
-.ml-desc { margin: 0; font-size: 13px; color: #3a4654; }
-.ml-foot { margin: 14px 0 0; font-size: 13px; color: var(--muted); }
-
 /* ---------- 决策轨迹 ---------- */
-.trail-period { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 14px; }
-.trail-period:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
-.trail-period h3 { margin: 0 0 8px; font-size: 16px; color: var(--ink); }
-.trail-events { margin-bottom: 10px; }
-.event-note {
-  display: inline-block; background: #fbf6ec; color: #6b5a2e;
-  border: 1px solid #ecd9b0; border-radius: 3px;
-  padding: 2px 10px; font-size: 12.5px; margin-right: 6px;
-}
 .trail-item {
   background: #fbfcfd;
   border: 1px solid var(--line);
@@ -248,30 +257,16 @@ h1, h2, h3 {
 }
 .trail-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
 .trail-title { font-weight: 700; }
-.ml-badge { font-size: 11.5px; padding: 2px 9px; border-radius: 3px; color: #fff; }
-.ml-badge.mod-B { background: var(--modB); }
-.ml-badge.mod-C { background: var(--modC); }
-.ml-badge.mod-D { background: var(--modD); }
+.trail-choice { margin: 0 0 6px; font-size: 14px; color: #3a4654; }
+.trail-metrics { font-size: 12.5px; color: var(--muted); margin-bottom: 6px; }
+.trail-metrics b { color: var(--navy); font-family: ui-monospace, monospace; }
 .trail-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
 .trail-why { margin: 0; font-size: 12.5px; color: var(--muted); }
+.chip { font-size: 11.5px; padding: 2px 8px; border-radius: 3px; font-weight: 600; }
+.chip.pos { background: #e7f3ec; color: var(--pos); }
+.chip.neg { background: #f7e9e9; color: var(--neg); }
 .export-actions { margin-top: 16px; display: flex; gap: 12px; }
 .muted { color: var(--muted); }
-.empty { color: var(--muted); padding: 20px 0; }
-
-/* ---------- 期末评估 ---------- */
-.verdict-card {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-left: 5px solid var(--navy);
-  border-radius: 4px;
-  padding: 18px 22px;
-}
-.verdict-grade {
-  font-family: "Songti SC", "Noto Serif SC", Georgia, serif;
-  font-size: 22px; font-weight: 700;
-  margin-bottom: 6px;
-}
-.verdict-note { margin: 0; color: #33414f; }
 
 /* ---------- 页脚 ---------- */
 .site-footer { text-align: center; color: var(--muted); font-size: 12px; padding: 24px; }
