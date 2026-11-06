@@ -266,7 +266,7 @@ function exportMarkdown() {
   const s = getScenario();
   const res = finalResult(G.accum);
   let md = `# PUA6027 政策实验室 · 政策档案\n\n`;
-  md += `课程：科技、创新与政策（PUA6027）\n`;
+  md += `课程：科技与创新政策（PUA6027）\n`;
   md += `场景：${s.title}（${s.sector}）\n`;
   md += `本局政策层面：${LEVEL_LABEL[G.level]}\n`;
   md += `生成时间：${new Date().toLocaleString('zh-CN')}\n\n`;
